@@ -1,7 +1,7 @@
 #include "USB.h"
 #include "USBHIDKeyboard.h"
 #include <Arduino.h>
-#define LAYOUT LAYOUT_HUN
+//#define LAYOUT LAYOUT_HUN
 USBHIDKeyboard Keyboard;
 
 //ESP32 S2 Mini pins:
