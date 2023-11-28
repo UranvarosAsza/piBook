@@ -1,13 +1,13 @@
 # piBook
-For my Raspberry Pi - iBook conversion
+## For my Raspberry Pi - iBook conversion
 
 
-Files:
+## Files:
 
-keyboard_scanner.cpp:
+### keyboard_scanner.cpp:
 
-  Acts as a keyboard
-  Reads the pinput pins from the FPC connector
-  Writes the pin-info for every pressed key on the keyboard
+ - Acts as a keyboard
+ - Reads the pinput pins from the FPC connector
+ - Writes the pin-info for every pressed key on the keyboard
 
-keyboard.cpp
+### keyboard.cpp
