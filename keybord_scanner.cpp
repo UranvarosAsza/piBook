@@ -4,11 +4,11 @@
 #define LAYOUT LAYOUT_HUN
 USBHIDKeyboard Keyboard;
 
-//ESP32 S2 Mini
+//ESP32 S2 Mini pins:
 int MyPinsInOrder[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 21, 33, 34, 35, 36, 37, 38, 39, 40};
 int total = 27;
 
-void makeInputFromPin(int pin) //eredetiben a go_z
+void makeInputFromPin(int pin) // "go_z" in the original
 {
   pinMode(pin, INPUT_PULLUP);
   digitalWrite(pin, HIGH);
@@ -20,7 +20,7 @@ void makeOutputFromPin(int pin)
   digitalWrite(pin, LOW);
 }
 
-void readPinNumber(int button_num) {  //eredetiben usb_num
+void readPinNumber(int button_num) {  // "usb_num" in the original
   switch (button_num) {
     case 1:
       Keyboard.press('1');
