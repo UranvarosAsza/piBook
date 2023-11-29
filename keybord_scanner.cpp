@@ -5,7 +5,7 @@
 USBHIDKeyboard Keyboard;
 
 //ESP32 S2 Mini pins:
-int MyPinsInOrder[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 16, 17, 18, 21, 33, 34, 35, 36, 37, 38, 39, 40};
+int MyPinsInOrder[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 21, 33, 34, 35, 36, 37, 38, 39, 40};
 int total = 27;
 
 void makeInputFromPin(int pin) // "go_z" in the original
