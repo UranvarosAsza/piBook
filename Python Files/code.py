@@ -8,73 +8,77 @@ from kmk.scanners import DiodeOrientation
 from kmk.extensions.international import International
 
 keyboard = KMKKeyboard()
-locks = LockStatus()
-
+#locks = LockStatus()
+#keyboard.extensions.append(locks)
 keyboard.extensions.append(International())    ##ISO kisoztás,  az "Í" billentyű nem szerepel az ANSI-ban, a "KC.NONUS_BSLASH vagy KC.NUBS" kell a helyére
-keyboard.extensions.append(locks)
 
-leds = LED(led_pin=[board.IO12, board.IO1,board.IO10, ])         ##leds = LED(led_pin=[board.IO12, board.IO10, board.IO1])
+
+
+leds = LED(led_pin=[board.IO1, board.IO12, board.IO10 ])
+#ledek: CapsLock LED    : board.IO1
+#       Középső LED     : board.IO12
+#       Közös ground    : board.IO10
+
+keyboard.extensions.append(leds)
 
 class LEDLockStatus(LockStatus):
     def set_lock_leds(self):
         if self.get_caps_lock():
-            leds.set_brightness(50, leds=[2])
+            leds.set_brightness(100, leds=[0])
             print("caps lock is on")
         else:
-            leds.set_brightness(0, leds=[2])
+            leds.set_brightness(0, leds=[0])
             print("caps lock is off")
 
         if self.get_num_lock():
-            leds.set_brightness(50, leds=[0])
+            leds.set_brightness(100, leds=[1])
             print("num lock is on")
         else:
-            leds.set_brightness(0, leds=[0])
-            print(" lock is off")
+            leds.set_brightness(0, leds=[1])
+            print("num lock is off")
 
     def after_hid_send(self, sandbox):
-        super().after_hid_send(sandbox)  # Critically important. Do not forget
+        super().after_hid_send(sandbox)  # Critically important. Do noaat forget
         if self.report_updated:
             print("led status updated")
             self.set_lock_leds()
-
-keyboard.extensions.append(leds)
 keyboard.extensions.append(LEDLockStatus())
 
-# .---------------------------------------------------------------.
-# | FPC Pin |     GPIO       |     Function / Description         |
-# |---------+----------------+------------------------------------|
-# |   1     |  board.IO39    |     Keyboard COL 1                 |
-# |   2     |  board.IO40    |     Keyboard COL 2                 |
-# |   3     |  board.IO37    |     Keyboard COL 3                 |
-# |   4     |  board.IO38    |     Keyboard COL 4                 |
-# |   5     |  board.IO35    |     Keyboard COL 5                 |
-# |   6     |  board.IO36    |     Keyboard COL 6                 |
-# |   7     |  board.IO33    |     Keyboard COL 7                 |
-# |   8     |  board.IO34    |     Keyboard COL 8                 |
-# |   9     |  board.IO18    |     Keyboard COL 9                 |
-# |   10    |  board.IO21    |     Keyboard ROW 1                 |
-# |   11    |  board.IO16    |     Keyboard ROW 2                 |
-# |   12    |  board.IO17    |     Keyboard ROW 3                 |
-# |   13    |  board.IO15    |     Keyboard ROW 4                 |
-# |   14    |  board.IO14    |     Keyboard ROW 5                 |
-# |   15    |  board.IO13    |     Keyboard ROW 6                 |
-# |   16    |  board.IO12    |     Scroll Lock LED                |
-# |   17    |  board.IO10    |     LED common Ground              |
-# |   18    |  board.IO11    |     Keyboard ROW 7                 |
-# |   19    |  board.IO8     |     Keyboard ROW 8                 |
-# |   20    |  board.IO9     |     Keyboard ROW 9                 |
-# |   21    |  board.IO6     |     Keyboard ROW 10                |
-# |   22    |  board.IO7     |     Keyboard ROW 11                |
-# |   23    |  board.IO4     |     Keyboard ROW 12                |
-# |   24    |  board.IO5     |     Keyboard ROW 13                |
-# |   25    |  board.IO2     |     Keyboard ROW 14                |
-# |   26    |  board.IO3     |     Keyboard ROW 15                |
-# |   27    |  board.IO1     |     Caps Lock LED                  |
-# |   28    |       -        |                                    |
-# |   29    |       -        |                                    |
-# |   30    |       -        |                                    |
-# '---------------------------------------------------------------'
 
+# .----------------------------------------------.
+# | FPC Pin |    GPIO     |       Funkció        |
+# |---------+-------------+----------------------|
+# |    1    | board.IO39  |    Keyboard COL      |
+# |    2    | board.IO40  |   Keyboard COL 2     |
+# |    3    | board.IO37  |   Keyboard COL 3     |
+# |    4    | board.IO38  |   Keyboard COL 4     |
+# |    5    | board.IO35  |   Keyboard COL 5     |
+# |    6    | board.IO36  |   Keyboard COL 6     |
+# |    7    | board.IO33  |   Keyboard COL 7     |
+# |    8    | board.IO34  |   Keyboard COL 8     |
+# |    9    | board.IO18  |   Keyboard COL 9     |
+# |   10    | board.IO21  |   Keyboard ROW 1     |
+# |   11    | board.IO16  |   Keyboard ROW 2     |
+# |   12    | board.IO17  |   Keyboard ROW 3     |
+# |   13    | board.IO15  |   Keyboard ROW 4     |
+# |   14    | board.IO14  |   Keyboard ROW 5     |
+# |   15    | board.IO13  |   Keyboard ROW 6     |
+# |   16    | board.IO12  |     Középső LED      |
+# |   17    | board.IO10  |  LED közös GND       |
+# |   18    | board.IO11  |   Keyboard ROW 7     |
+# |   19    | board.IO8   |   Keyboard ROW 8     |
+# |   20    | board.IO9   |   Keyboard ROW 9     |
+# |   21    | board.IO6   |  Keyboard ROW 10     |
+# |   22    | board.IO7   |  Keyboard ROW 11     |
+# |   23    | board.IO4   |  Keyboard ROW 12     |
+# |   24    | board.IO5   |  Keyboard ROW 13     |
+# |   25    | board.IO2   |  Keyboard ROW 14     |
+# |   26    | board.IO3   |  Keyboard ROW 15     |
+# |   27    | board.IO1   |    Caps Lock LED     |
+# |   28    |     -       |           -          |
+# |   29    |     -       |           -          |
+# |   30    |     -       |           -          |
+# '----------------------------------------------'
 
 
 ## Keyboardmatrix kép alapján az alsó táblázat, 1-9 x 10-26 pinek
@@ -87,12 +91,13 @@ keyboard.diode_orientation = DiodeOrientation.ROW2COL   ##ez valszeg nálunk min
 
 ##A korábban bescannelt billentyűmátrix alapján épül fel a keymap ( ha saját gyártású lenne a bill, akkor olvashatóbb lenne )
 ## Az "olvashatóság" miatt a mátrixba magyar billentyű kódokkal hivatkoztam rájuk, de mivel OS szinten dönti el hogy milyen kimenetet
-#  ad az ANSI bill adott karaktereinek ezért ezeknek az ANSI helyén lévő nagol bill nevet kell adni-> ki lett szervezve külön  
+#  ad az ISO bill adott karaktereinek ezért ezeknek az ISO helyén lévő angol bill nevet kell adni-> ki lett szervezve külön  
 
 #FN billentyű nem lézetik -> helyette modifyer key, és layerek hozzáadhatóak, minden layer egy mátrix a layering pedig kmk modul
 
-FN = KC.NUMLOCK 
-##ideiglenesen ide majd jön a fn- media layer / lehet hogy a Ctrl kéne a helyére mert idóta pozícióban van és akkor meg két Ctrl lenne amíg nincs layering
+FN = KC.NUMLOCK #csak a led tesztelés miatt kell 
+
+##ide majd jön a fn- media layer / lehet hogy a Ctrl kéne a helyére mert idóta pozícióban van és akkor meg két Ctrl lenne amíg nincs layering
 
 ##magyar karakterek:
 
